@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Dapur LL - Tempat Nyaman untuk Bersantai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #6d4c41, #8d6e63, #a1887f, #bcaaa4);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #3e2723;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            margin: 0 10px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            font-weight: bold;
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .slider-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+
+        .slider img {
+            min-width: 100%;
+            object-fit: cover;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .slider-dot.active {
+            background: white;
+        }
+
+        .item-details {
+            padding: 20px;
+        }
+
+        .item-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #5d4037;
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: #795548;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            color: #4e342e;
+            font-weight: bold;
+        }
+
+        .rating {
+            color: #ff9800;
+            margin: 8px 0;
+        }
+
+        .category-title {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin: 40px 0 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .menu-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-mug-hot"></i>
+                <i class="fas fa-hamburger"></i>
+                
+            </div>
+            <h1>Menu Dapur LL</h1>
+            <p class="subtitle">Nikmati waktu santai Anda dengan berbagai pilihan makanan dan minuman terbaik kami</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showCategory('all')">Semua Menu</button>
+            <button class="tab-btn" onclick="showCategory('food')">Makanan</button>
+            <button class="tab-btn" onclick="showCategory('drink')">Minuman</button>
+            <button class="tab-btn" onclick="showCategory('dessert')">Pencuci Mulut</button>
+        </div>
+
+        <div id="food-category">
+            <h2 class="category-title">Makanan</h2>
+            <div class="menu-container">
+                <!-- Item 1 -->
+                <div class="menu-item" data-category="food">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="pempek.jpeg" alt="Pempek Tengiri">
+                            <img src="pempek1.jpeg" alt="Pempek Tengiri">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Pempek Ikan Tengiri</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="item-desc">Pempek Ikan Tengiri bisa matang dan juga frozen, 1 porsi berisi 2 kapal selam, 2 lenjer tengiri, kuah cuko, irisan mentimun, dan mie pendamping</p>
+                        <p class="item-price">Rp 18.000- Rp 20.000</p>
+                    </div>
+                </div>
+
+                
+
+                <!-- Item 2 -->
+                <div class="menu-item" data-category="food">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="ricebox1.jpg" alt="Rice Box">
+                            <img src="ricebox3.jpg" alt="Rice Box">
+             
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Rice Box</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="item-desc">Rice Box dengan pilihan lauk "Ayam Crispy, Ayam katsu, Ayam Geprek", untuk Geprek ada pilihan Sambal "Sambal Bawang, Sambal Geprek, dan Mentai".</p>
+                        <p class="item-price">Rp 15.000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+
+        <div id="drink-category">
+            <h2 class="category-title">Minuman</h2>
+            <div class="menu-container">
+                <!-- Item 1 -->
+                <div class="menu-item" data-category="drink">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="susu_jelly.png" alt="Susu Jelly">
+                            <img src="susu_jelly1.jpg" alt="Susu Jelly">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Es Susu Jelly</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="item-desc">Es Susu Jelly menggunakan susu UHT dan gula asli dengan isian Jelly bermacam bentuk dan rasa.</p>
+                        <p class="item-price">Rp 10.000</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="menu-item" data-category="drink">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="lemon1.jpeg" alt="Lemon Tea">
+                            <img src="lemon.jpeg" alt="Lemon Tea">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Lemon Tea</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="item-desc">Minuman Teh dengan rasa Lemon yang menyegarkan.</p>
+                        <p class="item-price">Rp 8.000</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="menu-item" data-category="drink">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="botol2.jpeg" alt="Smoothie Berry">
+                            <img src="botol1.jpg" alt="Smoothie Berry">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Minuman Botol</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="item-desc">Aneka Minuman botol dingin dengan berbagai varian macam dan rasa.</p>
+                        <p class="item-price">Rp 5.000-8.000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dessert-category">
+            <h2 class="category-title">Pencuci Mulut</h2>
+            <div class="menu-container">
+                <!-- Item 1 -->
+                <div class="menu-item" data-category="dessert">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="tahu_bakso.jpg" alt="Tahu Bakso">
+                            <img src="tahu_bakso1.jpeg" alt="Tahu Bakso">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Tahu Bakso</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="item-desc">Tahu Bakso dengan ukuran besar dan banyak pilihan rasa"Original, Pedas, Keju, Jamur, dan Sosis" untuk 1 porsi berisi 5 pcs, dengan saus sambal dan saus tomat.</p>
+                        <p class="item-price">Rp 12.000(chili oil +Rp 3.000)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+                <div class="menu-item" data-category="dessert">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="cireng.png" alt="Cireng">
+                            <img src="cireng1.jpeg" alt="Cireng">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Cireng Ayam Suwir</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="item-desc">Cireng Isi Ayam Suwir dengan ukuran besar, 1 Porsi Cireng berisi 5 pcs untuk varian matang,dan isi 6 pcs untuk varian frozen.</p>
+                        <p class="item-price">Rp 10.000</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="menu-item" data-category="dessert">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Ice Cream Sundae">
+                            <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Ice Cream Sundae">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Ice Cream Sundae</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="item-desc">Es krim vanilla dengan saus coklat, kacang, dan cherry di atasnya.</p>
+                        <p class="item-price">Rp 22.000</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="menu-item" data-category="dessert">
+                    <div class="slider-container">
+                        <div class="slider">
+                            <img src="https://images.unsplash.com/photo-1623334044303-241021148842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Tiramisu">
+                            <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Tiramisu">
+                        </div>
+                        <div class="slider-nav">
+                            <div class="slider-dot active"></div>
+                            <div class="slider-dot"></div>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <h3 class="item-title">Tiramisu</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <p class="item-desc">Makanan penutup Italia klasik dengan rasa kopi dan mascarpone yang lembut.</p>
+                        <p class="item-price">Rp 35.000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Dapur LL - Hubungi kami: (+62)878-2411-8159</p>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk menampilkan kategori menu
+        function showCategory(category) {
+            // Mengatur ulang status aktif tab
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Menampilkan/menyembunyikan kategori
+            if (category === 'all') {
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    item.style.display = 'block';
+                });
+                document.querySelectorAll('.category-title').forEach(title => {
+                    title.style.display = 'block';
+                });
+            } else {
+                document.querySelectorAll('.menu-item').forEach(item => {
+                    if (item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Menampilkan judul kategori yang sesuai
+                document.querySelectorAll('.category-title').forEach(title => {
+                    title.style.display = 'none';
+                });
+                document.getElementById(category + '-category').querySelector('.category-title').style.display = 'block';
+            }
+        }
+
+        // Inisialisasi slider untuk setiap item menu
+        document.querySelectorAll('.slider-container').forEach(container => {
+            const slider = container.querySelector('.slider');
+            const dots = container.querySelectorAll('.slider-dot');
+            let currentSlide = 0;
+            
+            // Fungsi untuk mengubah slide
+            function goToSlide(slideIndex) {
+                slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[slideIndex].classList.add('active');
+                currentSlide = slideIndex;
+            }
+            
+            // Event listener untuk dots
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+            });
+            
+            // Otomatis ganti slide setiap 5 detik
+            setInterval(() => {
+                let nextSlide = (currentSlide + 1) % dots.length;
+                goToSlide(nextSlide);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
